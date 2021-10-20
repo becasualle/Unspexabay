@@ -1,11 +1,14 @@
 import React from 'react';
 import Search from './components/Search';
+import Photos from './components/Photos';
 
 function App() {
+  const query = 'test';
   return (
-    <div>
-      <Search />
-    </div>
+    <main>
+      <Search query={query} />
+      <Photos />
+    </main>
   );
 }
 

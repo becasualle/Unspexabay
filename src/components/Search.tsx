@@ -2,7 +2,11 @@ import React from 'react';
 import styles from './Search.module.css';
 import { FaSearch } from 'react-icons/fa';
 
-const Search: React.FC = (props) => {
+type SearchProps = {
+    query: string;
+}
+
+const Search = ({ query }: SearchProps) => {
     return (
         <section className={styles.search}>
             <form className={styles.searchForm}>
@@ -11,9 +15,13 @@ const Search: React.FC = (props) => {
                     <FaSearch />
                 </button>
             </form>
+            <button className={styles.btnFilter}>Моя коллекция</button>
         </section>
     );
 
 }
+// https://ru.reactjs.org/docs/thinking-in-react.html
+// https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/hooks#usereducer
+// https://github.com/piotrwitek/react-redux-typescript-guide#react--redux-in-typescript---complete-guide
 
 export default Search;

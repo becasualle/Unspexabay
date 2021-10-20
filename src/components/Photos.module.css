@@ -1,0 +1,22 @@
+.photos {
+    padding: 5rem 0;    
+}
+
+.photosCenter {
+    width: 90vw;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+}
+
+@media screen and (min-width: 576px) {
+    .photosCenter {
+        grid-template-columns: repeat(auto-fill, minmax(368px, 1fr));
+    }
+}
