@@ -1,16 +1,17 @@
 import React from 'react';
 import styles from './Search.module.css';
 import { FaSearch } from 'react-icons/fa';
+import { AppContext } from '../context';
 
-type SearchProps = {
-    query: string;
-}
-
-const Search = ({ query }: SearchProps) => {
+const Search = () => {
+    const appContext = React.useContext(AppContext);
+    // const {handleChange} = appContext;
+    const handleChange = appContext?.handleChange;
+    const query = appContext?.state.query;
     return (
         <section className={styles.search}>
             <form className={styles.searchForm}>
-                <input type="text" placeholder="поиск" className={styles.formInput} />
+                <input type="text" placeholder="поиск" className={styles.formInput} value={query} onChange={handleChange} />
                 <button type="submit" className={styles.submitBtn} >
                     <FaSearch />
                 </button>
