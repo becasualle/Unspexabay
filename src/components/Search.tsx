@@ -5,9 +5,8 @@ import { AppContext } from '../context';
 
 const Search = () => {
     const appContext = React.useContext(AppContext);
-    // const {handleChange} = appContext;
-    const handleChange = appContext?.handleChange;
-    const query = appContext?.state.query;
+    const { handleChange, state: { query } } = appContext
+
     return (
         <section className={styles.search}>
             <form className={styles.searchForm}>

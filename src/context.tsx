@@ -1,8 +1,6 @@
-import React, { PropsWithChildren, useContext, useReducer } from 'react';
-import App from './App';
+import React, { useReducer, useEffect } from 'react';
 import reducer from './reducer';
-
-// https://dev.to/elisealcala/react-context-with-usereducer-and-typescript-4obm
+import { clientID, mainUrl, searchUrl } from './constants';
 
 type State = {
     isLoading: boolean;
@@ -30,21 +28,42 @@ const initialState: State = {
     isLikedFilterOn: false
 };
 
-
-const AppContext = React.createContext<AppContextInterface | undefined>(undefined);
-
-// const sampleAppContext: AppContextInterface = {
-//     name: "Using React Context in a Typescript App",
-//     author: "thehappybug",
-//     url: "http://www.example.com",
-// };
+const AppContext = React.createContext<AppContextInterface>({} as AppContextInterface);
 
 const AppProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const { page, query } = state;
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
         dispatch({ type: 'UPDATE_QUERY', payload: e.currentTarget.value })
     }
+
+    const fetchImages = async () => {
+        dispatch({ type: 'GET_PHOTOS_BEGINS' })
+
+        let url: string;
+        const urlPage: string = `&page=${page}`
+        const urlQuery: string = `&query=${query}`
+
+        if (query) {
+            url = `${searchUrl}${clientID}${urlPage}${urlQuery}`
+        } else {
+            url = `${mainUrl}${clientID}${urlPage}`
+        }
+        try {
+            const response = await fetch(url);
+            const data: any = await response.json();
+            dispatch({ type: 'GET_PHOTOS_SUCCESS', payload: data })
+        } catch (error) {
+            dispatch({ type: 'GET_PHOTOS_ERROR', payload: error })
+        }
+    }
+
+    useEffect(() => {
+        fetchImages();
+        // eslint-disable-next-line
+    }, [page])
+
 
     return <AppContext.Provider value={{
         state,
